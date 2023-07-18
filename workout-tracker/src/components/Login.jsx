@@ -47,15 +47,20 @@ export default function Login() {
             cookies.set("NAME", result.data.name, {
             path: "/",
             });
-            console.log("success");
             window.location.href = "/dashboard";
-            }).catch((err) => {
-            console.log(err);
+            }).catch((e) => {
+                console.log(e);
+                if(e.response.data.message === 'Username not found') {
+                    alert('Email and password does not match! Please check');
+                }
+                else {
+                    alert('error');
+                }
         });
     }
 
     return (
-        <div style={{backgroundColor: '#2D4356'}}>
+        <div>
             <CssBaseline />
             <Grid container component="main" sx={{ height: '100vh' }} style={{padding: '5vh 5vh 5vh 5vh', borderRadius: '25px'}}>
                 <Grid
@@ -65,15 +70,15 @@ export default function Login() {
                 sm={false}
                 md={7}
                 sx={{
-                    backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                    backgroundRepeat: 'no-repeat',
                     backgroundColor: (t) =>
                     t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                 }}
-                style={{borderRadius: '25px'}}
-                />
+                style={{borderRadius: '25px', textAlign: 'center', paddingTop: '40px'}}
+                >
+                    <img src='../src/images/run.png' alt='run image'></img>
+                </Grid>
 
                 <Grid item xs={12} sm={12} md={5} component={Paper} elevation={6} square style={{borderRadius: '25px'}}>
                     <Box
@@ -85,7 +90,13 @@ export default function Login() {
                         alignItems: 'center',
                         }}
                     >
-                        
+                        <Grid container>
+                            <Grid item>
+                            <Link href="/" variant="body2">
+                                {"<-- Click to go back"}
+                            </Link>
+                            </Grid>
+                        </Grid>
                         <Typography component="h1" variant="h5">
                         Sign in
                         </Typography>
@@ -115,6 +126,7 @@ export default function Login() {
                             onChange={handleChange}
                         />
                         <Button
+                            color='secondary'
                             type="submit"
                             fullWidth
                             variant="contained"

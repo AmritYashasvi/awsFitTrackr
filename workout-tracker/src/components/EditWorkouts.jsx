@@ -4,11 +4,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Cookies from "universal-cookie";
 import Button from '@mui/material/Button';
-import { Grid, TextField } from '@mui/material';
+import {  TextField } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import FormControl from '@mui/material/FormControl';
@@ -37,7 +35,7 @@ export default function EditWorkouts() {
   });
 
   function handleChangeSetAddWorkout(eve) {
-    console.log(eve.target.value);
+    // console.log(eve.target.value);
     const name = eve.target.name;
     const value = eve.target.value;
     setAddWorkout((prev) => {
@@ -145,7 +143,7 @@ export default function EditWorkouts() {
 
 
             <FormControl fullWidth required>
-                    <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                    <InputLabel id="demo-simple-select-label">Type</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
@@ -219,6 +217,7 @@ export default function EditWorkouts() {
           <ItemComponent
           key={workout._id}
           _id={workout._id}
+          category={workout.category}
           name={workout.name}
           target={workout.target}
           unit={workout.unit}

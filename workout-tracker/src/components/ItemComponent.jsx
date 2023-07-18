@@ -23,14 +23,14 @@ export default function ItemComponent(props) {
         const configuration = {
             method: "patch",
             url: "http://localhost:3000/removeworkout",
-            data: {_id: props._id},
+            data: {_id: props._id, name: props.name, category: props.category, target: props.target, unit: props.unit},
             headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             Authorization: `Bearer ${token}`
             }
         };
         axios(configuration).then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
         }).catch((err) => {
             console.log(err);
         });

@@ -16,6 +16,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import HistoryToggleOffIcon from '@mui/icons-material/HistoryToggleOff';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import LogoutIcon from '@mui/icons-material/Logout';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 
@@ -40,7 +41,7 @@ export default function Sidebar() {
   function Logout() {
     cookies.remove("TOKEN", { path: "/" });   
     cookies.remove("NAME", { path: "/" });  
-    window.location.href = "/login"; 
+    window.location.href = "/"; 
   }
 
   function handleNav(eve) {  
@@ -57,11 +58,11 @@ export default function Sidebar() {
     <div>
       <Toolbar />
       <List>
-        {['Dashboard', 'Workout Logs', 'Edit Workouts'].map((text, index) => (
+        {['Dashboard', 'Workout Logs', 'Edit Workouts', 'Learn Exercises'].map((text, index) => (
           <ListItem key={text} disablePadding onClick={handleNav}>
             <ListItemButton>
               <ListItemIcon>
-                {index === 0 ? <DashboardIcon /> : index === 1 ? <HistoryToggleOffIcon /> : <EditNoteIcon />}
+                {index === 0 ? <DashboardIcon /> : index === 1 ? <HistoryToggleOffIcon /> : index === 2 ? <EditNoteIcon /> : <LightbulbIcon />}
               </ListItemIcon>
               <Typography variant='h6'>
                 {text}
@@ -106,6 +107,10 @@ export default function Sidebar() {
           >
             <MenuIcon />
           </IconButton>
+          <Typography variant='h5' color='#F50057' sx={{display: { xs: 'none', sm: 'block', md: 'block' }}}>
+              <img src='../src/images/run.png' style={{height:'30px', width:'30px'}}></img>
+              <b> FitTrackr</b>
+            </Typography>
           <Typography variant="h6" noWrap component="div" style={{marginLeft: 'auto'}}>
             Welcome, {cookies.get("NAME")}
           </Typography>

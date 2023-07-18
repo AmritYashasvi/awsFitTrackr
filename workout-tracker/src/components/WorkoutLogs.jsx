@@ -1,19 +1,13 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
 import { Grid } from '@mui/material';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Sidebar from './Sidebar';
@@ -50,12 +44,13 @@ const cookies = new Cookies();
 const drawerWidth = 240;
 
 export default function WorkoutLogs() {
-  
+  const [date, setDate] = React.useState('');
   const [workouts, setWorkouts] = React.useState([]);
 
   React.useEffect(() => {
     const currentDate = new Date().toJSON().slice(0, 10);
-    console.log(currentDate);
+    setDate(currentDate);
+    // console.log(currentDate);
     const token = cookies.get("TOKEN");
     const configuration = {
         method: "post",
@@ -68,7 +63,7 @@ export default function WorkoutLogs() {
     };
     axios(configuration)
         .then((result) => {
-          console.log(result.data);
+          // console.log(result.data);
           setWorkouts(result.data);
         })
         .catch((error) => {
@@ -80,7 +75,8 @@ export default function WorkoutLogs() {
 
   function handleChange(eve) {
     const sel_date = dayjs(eve.$d).format('YYYY-MM-DD');
-    console.log(sel_date);
+    setDate(sel_date);
+    // console.log(sel_date);
     
     const token = cookies.get("TOKEN");
     const configuration = {
@@ -94,7 +90,7 @@ export default function WorkoutLogs() {
     };
     axios(configuration)
         .then((result) => {
-          console.log(result.data);
+          // console.log(result.data);
           setWorkouts(result.data);
         })
         .catch((error) => {
@@ -119,7 +115,7 @@ export default function WorkoutLogs() {
         <br />
         <Grid container spacing={2} maxWidth={screen.width}>
 
-          <Grid item xs={12} sm={6} md={5}>
+          <Grid item xs={12} sm={12} md={5}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
              <DateCalendar
                views={['day']}
@@ -128,7 +124,7 @@ export default function WorkoutLogs() {
            </LocalizationProvider>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={7} style={{textAlign: 'center'}}>
+          <Grid item xs={12} sm={12} md={7}>
           {workouts.length ?
           <Bar
               data = {{
@@ -137,27 +133,60 @@ export default function WorkoutLogs() {
                   {
                     label: "Your's",
                     data: workouts.map((workout) => workout.done),
-                    backgroundColor: 'grey',
+                    backgroundColor: '#f50057',
                     borderColor: 'black',
                     BorderWidth: 1,
                   },
                   {
                     label: 'Target',
                     data: workouts.map((workout) => workout.target),
-                    backgroundColor: 'aqua',
+                    backgroundColor: 'grey',
                     borderColor: 'black',
                     BorderWidth: 1,
                   }
                 ]
               }}
-            ></Bar> :<><h4>select some other date;</h4> <img alt='no data available for this date' src="https://www.archanaprojects.com/Frontend/images/not-found.png"></img> </>}
+            ></Bar> :<><h4>select some other date;</h4> <img alt='no data available for this date' src="../src/images/not-found.png"></img> </>}
             
           </Grid>
 
         </Grid>
-        <div>
-          
-        </div>
+        <br></br>
+        <Typography variant='h6' style={{margin: 'auto'}}>
+          Date : { date }
+        </Typography>
+        <br></br>
+        {workouts.length ? <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Type</TableCell>
+                <TableCell align="right">Achieved</TableCell>
+                <TableCell align="right">Target</TableCell>
+                <TableCell align="right">Unit</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {workouts.map((workout) => (
+                <TableRow
+                  key={workout.name}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {workout.name}
+                  </TableCell>
+                  <TableCell align="right">{workout.category}</TableCell>
+                  <TableCell align="right">{workout.done}</TableCell>
+                  <TableCell align="right">{workout.target}</TableCell>
+                  <TableCell align="right">{workout.unit}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer> : <Typography variant='h4' color='secondary'>No data to show</Typography>}
+
+        
       </Box>
     </Box>
   );

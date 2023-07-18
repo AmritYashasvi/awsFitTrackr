@@ -28,44 +28,51 @@ const saltRound = 10;
 
 //register
 exports.register = async (req, res) => {
-    // User.findOne({email: req.body.email}).then((user) => {
-
-    //     res.status(201).send({
-    //         message: "User already exists",
-    //         user,
-    //     });
-    // });
-
-    bcrypt.hash(req.body.password, saltRound)
-    .then((hashedPassword) => {
-        const user = new User({
-            name: req.body.name,
-            email: req.body.email,
-            password: hashedPassword,
-        });
-        console.log(user);
-        user.save()
-        .then((result) => {
-            res.status(201).send({
-                message: "User Created Successfully",
-                result,
+    User.findOne({email: req.body.email}).then((user) => {
+        if(user != null) {
+            res.status(403).send({message: "User already exists"});
+        }
+        else {
+            bcrypt.hash(req.body.password, saltRound)
+            .then((hashedPassword) => {
+                const user = new User({
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: hashedPassword,
+                    workouts: [{
+                        category: 'Cardio',
+                        name: 'Walk',
+                        target: 5,
+                        unit: 'km',
+                    }]
+                });
+                console.log(user);
+                user.save()
+                .then((result) => {
+                    res.status(201).send({
+                        message: "User Created Successfully",
+                        result,
+                    });
+                })
+                .catch((error) => {
+                    res.status(500).send({
+                        message: "Error creating user",
+                        error,
+                    });
+                });
+                console.log("User added");
+            })
+            .catch((err) => {
+                res.status(500).send({
+                    message: "Password was not hashed successfully",
+                    err,
+                });
+                console.log("Unable to add the user");
             });
-        })
-        .catch((error) => {
-            res.status(500).send({
-                message: "Error creating user",
-                error,
-            });
-        });
-        console.log("User added");
-    })
-    .catch((err) => {
-        res.status(500).send({
-            message: "Password was not hashed successfully",
-            err,
-        });
-        console.log("Unable to add the user");
+        }
     });
+
+
     
 };
 

@@ -1,22 +1,9 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
+import { Grid, Link } from '@mui/material';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Slider from '@mui/material/Slider';
 import Paper from '@mui/material/Paper';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Sidebar from './Sidebar';
@@ -91,7 +78,6 @@ export default function Dashboard() {
     };
     axios(configuration)
         .then((result) => {
-          console.log(result.data[0].arr);
           setWorkouts(result.data[0].arr);
           
         })
@@ -123,28 +109,6 @@ export default function Dashboard() {
     })
   }
 
-  
-
-  // const data = {
-  //   labels: workouts.map((workout) => workout.name),
-  //   datasets: [
-  //     {
-  //       label: "Your's",
-  //       data: workouts.map((workout) => workout.done),
-  //       backgroundColor: 'grey',
-  //       borderColor: 'black',
-  //       BorderWidth: 1,
-  //     },
-  //     {
-  //       label: 'Target',
-  //       data: workouts.map((workout) => workout.target),
-  //       backgroundColor: 'aqua',
-  //       borderColor: 'black',
-  //       BorderWidth: 1,
-  //     }
-  //   ]
-  // };
-
   return (
     <Box sx={{ display: 'flex' }}>
       <Sidebar />
@@ -160,7 +124,7 @@ export default function Dashboard() {
 
         <Grid container spacing={2} maxWidth={screen.width}>
 
-          <Grid item xs={12} sm={8} md={8}>
+          <Grid item xs={12} sm={8} md={8} sx={{textAlign: 'center'}}>
             <Bar
               data = {{
                 labels: workouts.map((workout) => workout.name + ' (' + workout.unit + ')'),
@@ -168,14 +132,14 @@ export default function Dashboard() {
                   {
                     label: "Your's",
                     data: workouts.map((workout) => workout.done),
-                    backgroundColor: 'grey',
+                    backgroundColor: '#f50057',
                     borderColor: 'black',
                     BorderWidth: 1,
                   },
                   {
                     label: 'Target',
                     data: workouts.map((workout) => workout.target),
-                    backgroundColor: 'aqua',
+                    backgroundColor: 'grey',
                     borderColor: 'black',
                     BorderWidth: 1,
                   }
@@ -190,7 +154,7 @@ export default function Dashboard() {
             <Typography variant='h6'>
               Update today's workouts
             </Typography>
-            {workouts.map((workout, index) => (
+            {workouts.length ? workouts.map((workout, index) => (
               <ItemComponent
               key={index}
               index={index}
@@ -200,11 +164,19 @@ export default function Dashboard() {
               unit={workout.unit}
               done={workout.done}
             />
-            ))}
+            )) : <Typography variant='subtitle1'>No workouts to show. Please add from edit workouts!</Typography>}
+            
             <br />
             <Button variant="contained" color="secondary" fullWidth onClick={handleClick}>
               Update
             </Button>
+                        <Grid container>
+                            <Grid item>
+                            <Link href="/edit-workouts" variant="body2" style={{color: 'white'}}>
+                                {"<-- Click to edit your workouts"}
+                            </Link>
+                            </Grid>
+                        </Grid>
             </div>
           </Grid>
 

@@ -29,7 +29,7 @@ export default function Register() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        console.log(regData);
+        // console.log(regData);
 
         const configuration = {
             method: "post",
@@ -41,41 +41,43 @@ export default function Register() {
         };
 
         axios(configuration).then((result) => {
-        console.log(result);
-        alert("registered");
-        window.location.href = "/login";
+            // console.log(result);
+            alert("registered");
+            window.location.href = "/login";
 
         }).catch((err) => {
         console.log(err);
-        if(err.message === "User already exists") {
-            alert("User already exists");
-        }
-        else
-            alert("Failed to Submit")
-        });
+            if(err.response.data.message === "User already exists") {
+                alert("User already exists");
+            }
+            else
+                alert("Failed to Submit")
+            });
     }
 
     return (
-        <div style={{backgroundColor: '#2D4356'}}>
+        <div>
             <CssBaseline />
-            <Grid container component="main" sx={{ height: '100vh' }}  style={{padding: '5vh 5vh 5vh 5vh', borderRadius: '25px'}}>
+            <Grid container component="main" sx={{ height: '100vh' }} style={{padding: '5vh 5vh 5vh 5vh', borderRadius: '25px'}}>
                 <Grid
+                
                 item
                 xs={false}
                 sm={false}
                 md={7}
                 sx={{
-                    backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
-                    backgroundRepeat: 'no-repeat',
                     backgroundColor: (t) =>
                     t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                 }}
-                style={{borderRadius: '25px'}}
-                />
+                style={{borderRadius: '25px', textAlign: 'center', paddingTop: '40px'}}
+                >
+                    <img src='../src/images/run.png' alt='run image'></img>
+                </Grid>
 
                 <Grid item xs={12} sm={12} md={5} component={Paper} elevation={6} square style={{borderRadius: '25px'}}>
+                
                     <Box
                         sx={{
                         my: 8,
@@ -85,7 +87,13 @@ export default function Register() {
                         alignItems: 'center',
                         }}
                     >
-                        
+                        <Grid container>
+                            <Grid item>
+                            <Link href="/" variant="body2">
+                                {"<-- Click to go back"}
+                            </Link>
+                            </Grid>
+                        </Grid>
                         <Typography component="h1" variant="h5">
                         Sign up
                         </Typography>
@@ -126,6 +134,7 @@ export default function Register() {
                             onChange={handleChange}
                         />
                         <Button
+                            color='secondary'
                             type="submit"
                             fullWidth
                             variant="contained"

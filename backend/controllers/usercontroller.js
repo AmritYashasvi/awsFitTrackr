@@ -38,32 +38,26 @@ app.use((req, res, next) => {
 
   exports.addworkout = async (req, res) => {
     const data = {
-        category: req.body.category,
-        name: req.body.name,
-        target: req.body.target,
-        unit: req.body.unit
-    }
+      "category": req.body.category,
+      "name": req.body.name,
+      "target": req.body.target,
+      "unit": req.body.unit
+  }
+
+  const datalogs = {
+    "category": req.body.category,
+    "name": req.body.name,
+    "target": req.body.target,
+    "unit": req.body.unit,
+    "done": 0,
+  }
+  const currentDate = new Date().toJSON().slice(0, 10);
 
     User.findOneAndUpdate({email: req.user.userEmail}, {$push: {workouts: data}}).then((d) => {
-      
-      const currentDate = new Date().toJSON().slice(0, 10);
-      const email = req.user.userEmail;
-      User.findOne({email: email}).select({ workoutlog: {$elemMatch: {date: currentDate}}}).then((result) => {
-        const logs = result.workoutlog[0].arr;
-        logs.push(data);
-        const newdata = {
-          date: currentDate,
-          arr: logs,
-        }
-        User.findOneAndUpdate({email: req.user.userEmail}, {$pull: {workoutlog: {date: currentDate}}}).then(() => {
-          User.findOneAndUpdate({email: req.user.userEmail}, {$push: {workoutlog: newdata}});
-        });
-        console.log(newdata);
-      }).catch((err) => {
-        res.send({err, message: 'not found'});
-      });
-      res.status(200).send({
-        message: "Success",
+      User.findOneAndUpdate({email: req.user.userEmail}, {$push: {"workoutlog.$[outer].arr": datalogs}}, {"arrayFilters": [{"outer.date": currentDate}]}).then((result) => {
+        res.status(200).send({message: "success", result});
+      }).catch((e) => {
+        res.status(500).send({message: "faliure", e});
       });
     }).catch((err) => {
       res.status(500).send({
@@ -79,10 +73,14 @@ app.use((req, res, next) => {
   exports.removeworkout = async (req, res) => {
     const currentDate = new Date().toJSON().slice(0, 10);
     User.findOneAndUpdate({email: req.user.userEmail}, {$pull: {workouts: {_id: req.body._id}}}).then(() => {
-      User.findOneAndUpdate({email: req.user.userEmail}, {$pull: {workoutlog: {date: currentDate}}}).then(() => {
-        
+      console.log({name: req.body.name, category: req.body.category, target: req.body.target, unit: req.body.target})
+      User.findOneAndUpdate({email: req.user.userEmail}, {$pull: {"workoutlog.$[outer].arr": {name: req.body.name, category: req.body.category, target: req.body.target, unit: req.body.unit}}}, {"arrayFilters": [{"outer.date": currentDate}]}).then((result) => {
+        res.status(200).send({message: "success", result});
+      }).catch((e) => {
+        res.status(500).send({message: "faliure", e});
       });
-      res.status(200).send({message: "Success"});
+    }).catch((e) => {
+      res.status(500).send({message: "faliure", e});
     });
   }
 
@@ -116,7 +114,7 @@ app.use((req, res, next) => {
     const email = req.user.userEmail;
     // console.log(req.body);
     User.findOne({email: email}).select({ workoutlog: {$elemMatch: {date: req.body.date}}}).then((result) => {
-      console.log(result);
+      // console.log(result);
       res.send(result.workoutlog[0].arr);
     }).catch((err) => {
       res.send({err, message: 'not found'});
@@ -126,7 +124,7 @@ app.use((req, res, next) => {
   exports.gettodaylog = async (req, res) => {
     const email = req.user.userEmail;
     const currentDate = new Date().toJSON().slice(0, 10);
-    console.log(currentDate);
+    // console.log(currentDate);
     User.findOne({email: email}).select({ workoutlog: {$elemMatch: {date: currentDate}}}).then((result) => {
       if(result.workoutlog.length != 0)
         res.send(result.workoutlog);
@@ -136,7 +134,7 @@ app.use((req, res, next) => {
         User.findOne({email: email}).then((result) => {
           arr = result.workouts;
           data = {date: currentDate, arr: arr}
-          console.log(data);
+          // console.log(data);
           User.findOneAndUpdate({email: email}, {$push: {workoutlog: data}}).then((d) => {
             User.findOne({email: email}).select({ workoutlog: {$elemMatch: {date: currentDate}}}).then((result) => {
               res.send(result.workoutlog);
