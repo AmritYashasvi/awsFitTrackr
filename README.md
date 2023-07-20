@@ -1,1 +1,1 @@
-# workout-tracker
+# FitTrackr
