@@ -52,7 +52,7 @@ export default function EditWorkouts() {
     const token = cookies.get("TOKEN");
     const configuration = {
         method: "patch",
-        url: "http://localhost:3000/addworkout",
+        url: "http://localhost:8000/addworkout",
         data: addWorkout,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -90,7 +90,7 @@ export default function EditWorkouts() {
     const token = cookies.get("TOKEN");
     const configuration = {
         method: "get",
-        url: "http://localhost:3000/getworkout",
+        url: "http://localhost:8000/getworkout",
         headers: {
         Authorization: `Bearer ${token}`,
       },

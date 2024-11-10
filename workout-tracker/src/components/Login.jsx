@@ -33,7 +33,7 @@ export default function Login() {
   
         const configuration = {
             method: "post",
-            url: "http://localhost:3000/login",
+            url: "http://localhost:8000/login",
             data: loginData,
             headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

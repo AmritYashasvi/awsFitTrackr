@@ -71,7 +71,7 @@ export default function Dashboard() {
     const token = cookies.get("TOKEN");
     const configuration = {
         method: "get",
-        url: "http://localhost:3000/gettodaylog",
+        url: "http://localhost:8000/gettodaylog",
         headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -92,7 +92,7 @@ export default function Dashboard() {
     const token = cookies.get("TOKEN");
     const configuration = {
         method: "patch",
-        url: "http://localhost:3000/addlog",
+        url: "http://localhost:8000/addlog",
         data: {arr: workouts},
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

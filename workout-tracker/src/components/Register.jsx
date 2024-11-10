@@ -33,7 +33,7 @@ export default function Register() {
 
         const configuration = {
             method: "post",
-            url: "http://localhost:3000/register",
+            url: "http://localhost:8000/register",
             data: regData,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

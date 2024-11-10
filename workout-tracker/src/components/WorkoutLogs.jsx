@@ -54,7 +54,7 @@ export default function WorkoutLogs() {
     const token = cookies.get("TOKEN");
     const configuration = {
         method: "post",
-        url: "http://localhost:3000/getlog",
+        url: "http://localhost:8000/getlog",
         data: {date: currentDate},
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -82,7 +82,7 @@ export default function WorkoutLogs() {
     const token = cookies.get("TOKEN");
     const configuration = {
         method: "post",
-        url: "http://localhost:3000/getlog",
+        url: "http://localhost:8000/getlog",
         data: {date: sel_date},
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

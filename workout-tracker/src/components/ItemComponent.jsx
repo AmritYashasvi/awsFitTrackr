@@ -22,7 +22,7 @@ export default function ItemComponent(props) {
         const token = cookies.get('TOKEN');
         const configuration = {
             method: "patch",
-            url: "http://localhost:3000/removeworkout",
+            url: "http://localhost:8000/removeworkout",
             data: {_id: props._id, name: props.name, category: props.category, target: props.target, unit: props.unit},
             headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
