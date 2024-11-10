@@ -10,6 +10,12 @@ app.use(cors());
 
 const PORT = process.env.PORT || 3000; 
 
+const path = require("path");
+const _dirname = path.dirname("");
+const buildpath = path.join(__dirname, "../workout-tracker/dist");
+app.use(express.static(buildpath));
+app.use('*', (req, res) => res.sendFile(path.join(__dirname, '../workout-tracker/dist', 'index.html')));
+
 dbConnect();
 
 app.use("/", require("./routes/router"));

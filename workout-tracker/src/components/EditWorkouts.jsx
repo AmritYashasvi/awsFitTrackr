@@ -213,7 +213,7 @@ export default function EditWorkouts() {
         <br />
         {/* //popup end */}
 
-        {workouts.map((workout) => (
+        {workouts?.map((workout) => (
           <ItemComponent
           key={workout._id}
           _id={workout._id}

@@ -127,18 +127,18 @@ export default function Dashboard() {
           <Grid item xs={12} sm={8} md={8} sx={{textAlign: 'center'}}>
             <Bar
               data = {{
-                labels: workouts.map((workout) => workout.name + ' (' + workout.unit + ')'),
+                labels: workouts?.map((workout) => workout.name + ' (' + workout.unit + ')'),
                 datasets: [
                   {
                     label: "Your's",
-                    data: workouts.map((workout) => workout.done),
+                    data: workouts?.map((workout) => workout.done),
                     backgroundColor: '#f50057',
                     borderColor: 'black',
                     BorderWidth: 1,
                   },
                   {
                     label: 'Target',
-                    data: workouts.map((workout) => workout.target),
+                    data: workouts?.map((workout) => workout.target),
                     backgroundColor: 'grey',
                     borderColor: 'black',
                     BorderWidth: 1,
@@ -154,7 +154,7 @@ export default function Dashboard() {
             <Typography variant='h6'>
               Update today's workouts
             </Typography>
-            {workouts.length ? workouts.map((workout, index) => (
+            {workouts?.length ? workouts?.map((workout, index) => (
               <ItemComponent
               key={index}
               index={index}

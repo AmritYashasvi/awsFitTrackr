@@ -160,7 +160,7 @@ export default function LearnExercises() {
                     input={<OutlinedInput label={ radioValue } />}
                     MenuProps={MenuProps}
                     >
-                    {dataset.map((d, ind) => (
+                    {dataset?.map((d, ind) => (
                         <MenuItem
                             key={ind}
                             value={d}
@@ -176,7 +176,7 @@ export default function LearnExercises() {
             </Grid>
         </Grid>
         <br></br>
-        {results.map((result, ind) => (
+        {results?.map((result, ind) => (
         <ItemComponent2
             key={ind}
             name={result.name}

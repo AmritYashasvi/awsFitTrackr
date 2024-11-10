@@ -74,6 +74,7 @@ export default function WorkoutLogs() {
   }, []);
 
   function handleChange(eve) {
+
     const sel_date = dayjs(eve.$d).format('YYYY-MM-DD');
     setDate(sel_date);
     // console.log(sel_date);
@@ -125,21 +126,21 @@ export default function WorkoutLogs() {
           </Grid>
 
           <Grid item xs={12} sm={12} md={7}>
-          {workouts.length ?
+          {workouts?.length ?
           <Bar
               data = {{
-                labels: workouts.map((workout) => workout.name + ' (' + workout.unit + ')'),
+                labels: workouts?.map((workout) => workout.name + ' (' + workout.unit + ')'),
                 datasets: [
                   {
                     label: "Your's",
-                    data: workouts.map((workout) => workout.done),
+                    data: workouts?.map((workout) => workout.done),
                     backgroundColor: '#f50057',
                     borderColor: 'black',
                     BorderWidth: 1,
                   },
                   {
                     label: 'Target',
-                    data: workouts.map((workout) => workout.target),
+                    data: workouts?.map((workout) => workout.target),
                     backgroundColor: 'grey',
                     borderColor: 'black',
                     BorderWidth: 1,
@@ -156,7 +157,7 @@ export default function WorkoutLogs() {
           Date : { date }
         </Typography>
         <br></br>
-        {workouts.length ? <TableContainer component={Paper}>
+        {workouts?.length ? <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -168,7 +169,7 @@ export default function WorkoutLogs() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {workouts.map((workout) => (
+              {workouts?.map((workout) => (
                 <TableRow
                   key={workout.name}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

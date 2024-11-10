@@ -39,7 +39,7 @@ function DrawerAppBar(props) {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
+        {navItems?.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton href={item} sx={{ textAlign: 'center' }}>
               <ListItemText primary={item} />
@@ -76,7 +76,7 @@ function DrawerAppBar(props) {
             <b> FitTrackr</b>
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
+            {navItems?.map((item) => (
               <Button href={item} variant="contained" color='secondary' key={item} sx={{ color: '#fff', marginLeft: '10px' }}>
                 {item}
               </Button>
